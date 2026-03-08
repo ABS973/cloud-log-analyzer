@@ -1,0 +1,63 @@
+$ python test_log_analyzer.py
+=======================================================
+TEST 1: filter_by_level()
+=======================================================
+
+  filter_by_level(logs, 'ERROR') → 3 result(s)
+    2026-02-05 08:11:20 | ERROR | db   | DB timeout
+    2026-02-05 08:11:23 | ERROR | api  | Failed request
+    2026-02-05 08:11:26 | ERROR | auth | Auth service down
+
+  ✅ PASS  Expected 3 ERROR entries, got 3
+
+  filter_by_level(logs, 'WARN') → 2 result(s)
+    2026-02-05 08:11:22 | WARN  | disk | Disk almost full
+    2026-02-05 08:11:25 | WARN  | api  | Slow response
+
+  ✅ PASS  Expected 2 WARN entries, got 2
+
+  ✅ PASS  filter_by_level(logs, 'DEBUG') → [] (expected [])
+
+=======================================================
+TEST 2: count_levels()
+=======================================================
+
+  count_levels(logs) →
+    ERROR  : 3
+    INFO   : 3
+    WARN   : 2
+
+  ✅ PASS  Expected: {'ERROR': 3, 'INFO': 3, 'WARN': 2}
+           Got:      {'ERROR': 3, 'INFO': 3, 'WARN': 2}
+
+=======================================================
+TEST 3: count_services()
+=======================================================
+
+  count_services(logs) →
+    api    : 3
+    auth   : 2
+    db     : 2
+    disk   : 1
+
+  ✅ PASS  Expected: {'api': 3, 'auth': 2, 'db': 2, 'disk': 1}
+           Got:      {'db': 2, 'api': 3, 'disk': 1, 'auth': 2}
+
+=======================================================
+ANALYSIS SUMMARY
+=======================================================
+
+  Total log entries : 8
+
+  By level:
+    ERROR  ███ (3)
+    INFO   ███ (3)
+    WARN   ██ (2)
+
+  By service:
+    api    ███ (3)
+    auth   ██ (2)
+    db     ██ (2)
+    disk   █ (1)
+
+  ⚠️  3 ERROR(s) detected — review required
